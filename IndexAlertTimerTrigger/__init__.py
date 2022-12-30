@@ -18,8 +18,15 @@ def main(mytimer: func.TimerRequest) -> None:
 
     nifty = nse.get_index_quote('nifty 50')
     banknifty = nse.get_index_quote('nifty bank')    
+    hdfclife = nse.get_quote('hdfclife')    
     lastPrice = nifty['lastPrice']
     change = nifty['change']      
+   
+    message_welcome = f"Welcome:{nifty['change']} :{hdfclife['change']}"       
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message_welcome}"
+    requests.get(url).json()
+
+
 
     if change > 100:   
        message = f"Nifty>100 change:{change} at price:{lastPrice}"       
