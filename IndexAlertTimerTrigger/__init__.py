@@ -2,11 +2,12 @@ import datetime
 import logging
 import requests
 from nsetools import Nse
+import constant
 import azure.functions as func
 
 nse = Nse()
-TOKEN = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-chat_id = -100xxxxxxxx
+TOKEN = constant.TOKEN
+chat_id = constant.chat_id
 
 
 def main(mytimer: func.TimerRequest) -> None:
