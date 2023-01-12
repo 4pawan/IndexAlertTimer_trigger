@@ -2,12 +2,11 @@ import datetime
 import logging
 import requests
 from nsetools import Nse
-import constant
 import azure.functions as func
 
 nse = Nse()
-TOKEN = constant.TOKEN
-chat_id = constant.chat_id
+TOKEN = "XXXXXXXXXXXXXXXXXXX"
+chat_id = -100XXXXXXXX
 
 
 def main(mytimer: func.TimerRequest) -> None:
@@ -20,21 +19,22 @@ def main(mytimer: func.TimerRequest) -> None:
 
     nifty = nse.get_index_quote('nifty 50')
     banknifty = nse.get_index_quote('nifty bank')
-    hdfclife = nse.get_quote('hdfclife')
+    #hdfclife = nse.get_quote('hdfclife')
     lastprice = float(nifty['lastPrice'])
     change = float(nifty['change'])
 
-    message_welcome = f"Welcome:{nifty['change']} :{hdfclife['change']}"
+    #message_welcome = f"Welcome:{nifty['change']} :{hdfclife['change']}"
+    message_welcome = f"Welcome  {nifty['change']} ,  {banknifty['change']}"
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message_welcome}"
     requests.get(url)
 
     if change > 100:
-        message = f"Nifty>100 change:{change} at price:{lastprice}"
+        message = f"Nifty>100 change:{change} at price: {lastprice}"        
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message}"
         requests.get(url)
 
     if change < -100:
-        message = f"Nifty<-100 change:{change} at price:{lastprice}"
+        message = f"Nifty<-100 change:{change} at price: {lastprice}"
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message}"
         requests.get(url)
 
@@ -42,11 +42,11 @@ def main(mytimer: func.TimerRequest) -> None:
     bankniftylastchange = float(banknifty['change'])
 
     if bankniftylastchange > 500:
-        message3 = f"BankNifty>500 change:{bankniftylastchange} at price:{bankniftylastprice}"
+        message3 = f"BankNifty>500 change:{bankniftylastchange} at price: {bankniftylastprice}"
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message3}"
         requests.get(url)
 
     if bankniftylastchange < -500:
-        message4 = f"BankNifty<-500 change:{bankniftylastchange} at price:{bankniftylastprice}"
+        message4 = f"BankNifty<-500 change:{bankniftylastchange} at price: {bankniftylastprice}"
         url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message4}"
         requests.get(url)
