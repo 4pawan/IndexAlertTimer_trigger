@@ -5,8 +5,8 @@ from nsetools import Nse
 import azure.functions as func
 
 nse = Nse()
-TOKEN = "XXXXXXXXXXXXXXXXXXX"
-chat_id = -100XXXXXXXX
+TOKEN = "XXXXXXXXXXXXXXXXXX"
+chat_id = -100XXXXXXXXX
 
 
 def main(mytimer: func.TimerRequest) -> None:
@@ -18,13 +18,17 @@ def main(mytimer: func.TimerRequest) -> None:
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
 
     nifty = nse.get_index_quote('nifty 50')
-    banknifty = nse.get_index_quote('nifty bank')
-    #hdfclife = nse.get_quote('hdfclife')
+    banknifty = nse.get_index_quote('nifty bank')    
     lastprice = float(nifty['lastPrice'])
     change = float(nifty['change'])
-
-    #message_welcome = f"Welcome:{nifty['change']} :{hdfclife['change']}"
-    message_welcome = f"Welcome  {nifty['change']} ,  {banknifty['change']}"
+    
+    message_welcome = f"Index  {nifty['change']} ,  {banknifty['change']}"   
+    try:
+        hdfclife = nse.get_quote('hdfclife')
+        message_welcome = f"Welcome  {nifty['change']} ,  {hdfclife['change']}"      
+    except:
+        print("An exception occurred")
+   
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={message_welcome}"
     requests.get(url)
 
