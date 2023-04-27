@@ -16,7 +16,7 @@ def main(mytimer: func.TimerRequest) -> None:
         logging.info('The timer is past due!')
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)         
-    message_welcome = ""   
+    message_welcome = "error"   
     try:
         nifty_data = n.live_index("NIFTY 50")
         hdfclife_data =n.stock_quote("HDFCLIFE")    
